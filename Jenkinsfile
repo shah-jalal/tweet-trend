@@ -1,8 +1,4 @@
-
-
-
-
-line {
+pipeline {
     agent {
         node {
             label 'maven'
