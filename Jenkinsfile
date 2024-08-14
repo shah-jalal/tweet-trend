@@ -13,5 +13,16 @@ environment {
                sh 'mvn clean install'
             }
         }
+
+        stage('SonarQube analysis') {
+            environment { 
+                scannerHome = tool 'sonar-scanner'
+            }
+            steps{
+                withSonarQubeEnv('sonar-server') { 
+                sh "${scannerHome}/bin/sonar-scanner"
+                }
+            }    
+        }
     }
 }
