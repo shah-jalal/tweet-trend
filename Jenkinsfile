@@ -13,7 +13,9 @@ environment {
     stages {
         stage('Build') {
             steps {
+                echo "------------- build started --------------"
                sh 'mvn compile'
+                echo "------------- build completed --------------"
             }
         }
 
@@ -26,6 +28,21 @@ environment {
                 sh "${scannerHome}/bin/sonar-scanner"
                 }
             }    
+        }
+
+        stage('Quality Gate') {
+            steps{
+                script{
+                    timeout(time: 1, unit: 'HOURS') {
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        }
+                    }
+
+                }
+            }
+            
         }
     }
 }
