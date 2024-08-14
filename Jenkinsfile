@@ -5,7 +5,7 @@ pipeline {
         }
     }
     options {
-        timeout(time: 1. unit: 'HOURS')
+        timeout(time: 1, unit: 'HOURS')
     }
 environment {
     PATH = "/opt/maven/bin:${env.PATH}"
