@@ -1,4 +1,6 @@
 def registry = 'https://shahcloud.jfrog.io'
+def imageName = 'shahcloud.jfrog.io/ttrend-docker-local/ttrend'
+def version = '2.1.2'
 pipeline {
     agent {
         node {
@@ -15,9 +17,9 @@ environment {
     stages {
         stage('Build') {
             steps {
-                echo "------------- Build Started --------------"
+                echo "---------------------- Build Started ----------------------"
                sh 'mvn clean deploy -Dmaven.test.skip=true'
-                echo "------------- Build Completed --------------"
+                echo "---------------------- Build Completed ---------------------"
             }
         }
 
@@ -50,7 +52,7 @@ environment {
         stage('Jar Published') {
         steps {
             script {
-                echo '----------------------Jar Publish Started------------------------'
+                echo '---------------------- Jar Publish Started ------------------------'
                 //def server = Artifactory.newServer url: registry+"/artifactory", credentialsId: 'jfrog-cred'
                 def server = Artifactory.server 'jfrog-server'
                 def properties = "buildid=${env.BUILD_ID},commitid=${GIT_COMMIT}";
@@ -69,7 +71,27 @@ environment {
                     def buildInfo = server.upload(spec: uploadSpec)
                     buildInfo.env.collect()
                     server.publishBuildInfo(buildInfo)
-                    echo '----------------------Jar Publish Ended------------------------'        
+                    echo '---------------------- Jar Publish Ended ------------------------'        
+                }
+            }
+        }
+
+        stage('Docker Build') {
+            steps {
+                script {
+                    echo '---------------------- Docker Build Started ------------------------'
+                    app = docker.build(imageName+":"+version)
+                    echo '---------------------- Docker Build Completed -----------------------'
+                }
+            }
+        }
+
+        stage('Docker Publish') {
+            steps {
+                script {
+                    echo '---------------------- Docker Publish Started ------------------------'
+                    docker.withRegistry(registry, 'jfrog-cred')
+                    echo '---------------------- Docker Publish Started ------------------------'
                 }
             }
         }
