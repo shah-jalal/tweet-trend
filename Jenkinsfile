@@ -98,5 +98,15 @@ environment {
             }
         }
 
+        stage('Deploy Cluster') {
+            steps {
+                script {
+                    echo '---------------------- Deploy Cluster Started ------------------------'
+                    sh './deploy.sh'
+                    echo '---------------------- Deploy Cluster Completed ------------------------'
+                }
+            }
+        }
+
     } //end stages
 } //end pipeline
