@@ -1,6 +1,6 @@
 def registry = 'https://shahcloud.jfrog.io'
 def imageName = 'shahcloud.jfrog.io/ttrend-docker-local/ttrend'
-def version = '2.1.2'
+def version = '2.1.3'
 pipeline {
     agent {
         node {

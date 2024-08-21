@@ -17,7 +17,7 @@ spec:
       - name: jfrogcred
       containers:
       - name:  ttrend-rtp
-        image: shahcloud.jfrog.io/ttrend-docker-local/ttrend:2.1.2
+        image: shahcloud.jfrog.io/ttrend-docker-local/ttrend:2.1.3
         imagePullPolicy: Always
         ports:
         - containerPort: 8000
