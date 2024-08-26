@@ -98,14 +98,25 @@ environment {
             }
         }
 
-        stage('Deploy Cluster') {
+        // stage('Deploy Cluster') {
+        //     steps {
+        //         script {
+        //             echo '---------------------- Deploy Cluster Started ------------------------'
+        //             sh './deploy.sh'
+        //             echo '---------------------- Deploy Cluster Completed ----------------------'
+        //         }
+        //     }
+        // }
+
+        stage('Deploy') {
             steps {
                 script {
-                    echo '---------------------- Deploy Cluster Started ------------------------'
-                    sh './deploy.sh'
-                    echo '---------------------- Deploy Cluster Completed ------------------------'
+                    echo '---------------------- Helm Deploy Started ------------------------'
+                    sh 'helm install ttrend ttrend-2.1.3.tgz'
+                    echo '---------------------- Helm Deploy Completed ----------------------'
                 }
             }
+
         }
 
     } //end stages
